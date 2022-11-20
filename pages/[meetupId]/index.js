@@ -6,7 +6,7 @@ import Head from 'next/head'
 import { MongoClient, ObjectId} from 'mongodb'
 
 
-function MeetupDetais(props){
+function MeetupDetails(props){
     return ( <Fragment>
         <Head>
         <title>{props.meetupData.title}</title>
@@ -69,4 +69,4 @@ export async function getStaticProps(context){
     }
 }
 
-export default MeetupDetais
+export default MeetupDetails
