@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "npm i cache-loader@1.2.2"
   },
   "dependencies": {
     "mongodb": "^4.12.0",
