@@ -1,23 +1,37 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId} from 'mongodb'
 
 async function handler(req, res) {
     if (req.method === 'POST'){
         const data = req.body
 
-        const client = await MongoClient.connect("mongodb+srv://diemalediven:gfhjkm1011@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority")
+        const user = process.env.DB_USER
+        const password = process.env.DB_PASSWORD
+        const client = await MongoClient.connect(`mongodb+srv://${user}:${password}@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority`)
+        
         const db = client.db()
 
         const meetupsCollection = db.collection('meetups')
 
         const result = await meetupsCollection.insertOne({data})
 
-        
-
         client.close()
 
         res.status(201).json({message: 'Meetup inserted'})
     }
+    if(req.method === 'DELETE') {
+        const data = req.body
 
+        const user = process.env.DB_USER
+        const password = process.env.DB_PASSWORD
+        const client = await MongoClient.connect(`mongodb+srv://${user}:${password}@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority`)
+        const db = client.db()
+
+        const meetupsCollection = db.collection('meetups')
+
+        const result = await meetupsCollection.deleteOne({"_id": ObjectId(data)})
+        client.close()
+        res.status(201).json({message: 'Meetup deleted'})
+    }
 }
 
 export default handler

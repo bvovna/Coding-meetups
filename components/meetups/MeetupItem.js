@@ -12,6 +12,17 @@ function showDetailsHandler(){
   router.push('/' + props.id)
 }
 
+async function removeEvent() {
+    const response = await fetch('api/new-meetup', {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(props.id)
+  })
+  
+  router.push('/')
+}
+
+
   return (
     <li className={classes.item}>
       <Card>
@@ -24,6 +35,7 @@ function showDetailsHandler(){
         </div>
         <div className={classes.actions}>
           <button onClick={showDetailsHandler}>Show Details</button>
+          <button onClick={removeEvent}>Remove event</button>
         </div>
       </Card>
     </li>

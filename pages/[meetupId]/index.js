@@ -25,7 +25,9 @@ function MeetupDetails(props){
 
 export async function getStaticPaths(){
 
-    const client = await MongoClient.connect("mongodb+srv://diemalediven:gfhjkm1011@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority")
+    const user = process.env.DB_USER
+    const password = process.env.DB_PASSWORD
+    const client = await MongoClient.connect(`mongodb+srv://${user}:${password}@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority`)
     const db = client.db()
 
     const meetupsCollection = db.collection('meetups')

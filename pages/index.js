@@ -5,22 +5,25 @@ import { Fragment } from 'react'
 
 
 function HomePage(props){
-    return (<Fragment>
+    return (
+    <Fragment>
         <Head>
         <title> React Meetups</title>
         <meta name="description" content="Lots of highly active React meetups"/>
         </Head>
         <MeetupList meetups={props.meetups}/>
-        </Fragment>)
+        </Fragment>
+        )
 }
 
 export async function getStaticProps(){
 
-    const client = await MongoClient.connect("mongodb+srv://diemalediven:gfhjkm1011@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority")
+    const user = process.env.DB_USER
+    const password = process.env.DB_PASSWORD
+    const client = await MongoClient.connect(`mongodb+srv://${user}:${password}@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority`)
     const db = client.db()
 
     const meetupsCollection = db.collection('meetups')
-
 
     const meetups = await meetupsCollection.find().toArray()
     client.close()
@@ -31,8 +34,7 @@ export async function getStaticProps(){
                     id: meetup._id.toString(),
                     title: meetup.data.title,
                     address: meetup.data.address,
-                    image: meetup.data.image,
-                    
+                    image: meetup.data.image,  
                 }
             ))
         },
