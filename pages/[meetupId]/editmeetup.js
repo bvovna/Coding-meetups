@@ -1,27 +1,35 @@
-import MeetupDetail from "../../components/meetups/MeetupDetail"
+import MeetupEdit from '../../components/meetups/MeetupEdit'
+
+import { MongoClient, ObjectId } from 'mongodb'
+import { useRouter } from 'next/router'
 
 import { Fragment } from 'react'
 import Head from 'next/head'
 
-import { MongoClient, ObjectId } from 'mongodb'
+function editMeetup(props) {
 
+    const router = useRouter()
 
-function MeetupDetails(props){
-    return ( <Fragment>
-        <Head>
-        <title>{props.meetupData.title}</title>
-        <meta name="description" content={props.meetupData.description}/>
+    async function editMeetupData(editedData){
+        const response = await fetch('/api/new-meetup', {
+            method: 'PUT',
+            body: JSON.stringify(editedData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const data = await response.json()
+        router.push('/')
+    }
+    return <Fragment>
+         <Head>
+            <title> Edit meetup</title>
+            <meta name="description" content="Edit the meetup details"/>
         </Head>
-            <MeetupDetail 
-            title={props.meetupData.title}
-            image={props.meetupData.image}
-            address={props.meetupData.address}
-            description={props.meetupData.description}
-            id={props.meetupData.id}
-            />
-    </Fragment>)
+        <MeetupEdit meetupData={props.meetupData} onEditMeetup={editMeetupData}/>
+    </Fragment>
 }
-
 
 
 export async function getStaticPaths(){
@@ -51,7 +59,9 @@ export async function getStaticProps(context){
 
     const meetupId = context.params.meetupId
 
-    const client = await MongoClient.connect("mongodb+srv://diemalediven:gfhjkm1011@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority")
+    const user = process.env.DB_USER
+    const password = process.env.DB_PASSWORD
+    const client = await MongoClient.connect(`mongodb+srv://${user}:${password}@cluster0.mjgp455.mongodb.net/meetups?retryWrites=true&w=majority`)
     const db = client.db()
 
     const meetupsCollection = db.collection('meetups')
@@ -71,4 +81,4 @@ export async function getStaticProps(context){
     }
 }
 
-export default MeetupDetails
+export default editMeetup

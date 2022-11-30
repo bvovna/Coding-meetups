@@ -1,7 +1,28 @@
 .detail{
     text-align: center;
+    color: #edae49;
+    background: #34353a;
+    border-radius: 6px;
+    padding-bottom: 1em;
 }
 
 .detail img{
     width: 100%;
+}
+
+.action{
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: 2px solid #edae49;
+    background: #34353a;
+    color: #edae49;
+    padding: 0.5em 1em;
+    margin: 0.4em;
+}
+
+.action:hover,
+.action:focus{
+    background: #edae49;
+    color: #34353a;
+    font-weight: bold;
 }

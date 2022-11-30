@@ -1,5 +1,6 @@
 .item {
   margin: 1rem 0;
+  border-radius: 10px;
 }
 
 .image {
@@ -15,14 +16,19 @@
   object-fit: cover;
 }
 
+.address{
+  color: #edae49;
+}
+
 .content {
   text-align: center;
   padding: 1rem;
+  background-color: #34353a;
 }
 
 .content h3 {
   font-size: 1.25rem;
-  color: #2c292b;
+  color: #edae49;
 }
 
 .actions {
@@ -30,19 +36,29 @@
   text-align: center;
   display: flex;
   justify-content: space-around;
+  background-color: #34353a;
 }
+
+.actions *{
+  text-decoration: none;
+  color: inherit;
+}
+
+/*edae49  34353a*/
 
 .actions button {
   font: inherit;
   cursor: pointer;
-  color: #77002e;
-  border: 1px solid #77002e;
+  color: #edae49;
+  border: 1px solid #edae49;
   background-color: transparent;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
+  
 }
 
 .actions button:hover,
 .actions button:active {
-  background-color: #ffe2ed;
+  background-color: #edae49;
+  color: #34353a;
 }

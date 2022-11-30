@@ -7,7 +7,6 @@ function NewMeetupPage(){
 
     const router = useRouter()
 
-
     async function addMeetupHandler(enteredMeetupData){
         const response = await fetch('/api/new-meetup', {
             method: 'POST',
@@ -29,7 +28,5 @@ function NewMeetupPage(){
         <NewMeetupForm onAddMeetup={addMeetupHandler}/>
     </Fragment>
 }
-
-
 
 export default NewMeetupPage
