@@ -2,16 +2,15 @@ import MeetupList from "../components/meetups/MeetupList"
 import { MongoClient } from "mongodb"
 import Head from 'next/head'
 import { Fragment } from 'react'
-import {useSession, signIn, signOut} from 'next-auth/react'
+import {useSession, signIn, signOut, getSession} from 'next-auth/react'
 
 
 function HomePage(props){
 
-    const {data:session} = useSession()
 
     const loggedIn = 
         <div className="notLoggedIn">
-            {session?<h1>Welcome, {session.user.name}</h1>:<h1>If you want to add, edit or remove meetups, please log in</h1>}
+            {props.session?<h1>Welcome, {props.session.user.name}</h1>:<h1>If you want to add, edit or remove meetups, please log in</h1>}
         </div>
 
     return (
@@ -26,7 +25,9 @@ function HomePage(props){
         )
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(context){
+
+    const session = await getSession(context)
 
     const user = process.env.DB_USER
     const password = process.env.DB_PASSWORD
@@ -37,6 +38,8 @@ export async function getStaticProps(){
 
     const meetups = await meetupsCollection.find().toArray()
     client.close()
+
+    
     return {
         props: {
             meetups: meetups.map(meetup => (
@@ -46,9 +49,9 @@ export async function getStaticProps(){
                     address: meetup.data.address,
                     image: meetup.data.image,  
                 }
-            ))
+            )),
+            session
         },
-        revalidate: 1
     }
 }
 
