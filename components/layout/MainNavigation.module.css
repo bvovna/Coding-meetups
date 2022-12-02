@@ -34,6 +34,27 @@
 
 .header a:hover,
 .header a:active,
-.header a.active {
+.header a.active,
+.addMeetup:hover,
+.addMeetup.active{
   color: white;
+}
+
+.headerBtn{
+  background-color: #34353a;
+  color: #edae49;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1.2rem;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.addMeetup{
+    background-color: transparent;
+    font-size: 1.4rem;
+    border: none;
+    color: #34353a;
+    font-family: inherit;
+    cursor: pointer;
 }

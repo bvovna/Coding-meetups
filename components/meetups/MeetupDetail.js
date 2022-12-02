@@ -1,23 +1,36 @@
-import { Fragment } from "react"
 import classes from './MeetupDetail.module.css'
 import { useRouter } from 'next/router'
+import {useSession, signIn, signOut} from 'next-auth/react'
+
 
 function MeetupDetail(props){
 
     const router = useRouter()
+
+    const {data: session} = useSession()
     
     async function removeEventHandler() {
+
+      if(session){
         const response = await fetch('api/new-meetup', {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(props.id)
       })
-      
       router.push('/')
+    }
+    else{
+      signIn()
+    }
     }
 
     function editMeetupHandler(){
-        router.push(`/${props.id}/editmeetup`)
+        if(session){
+          router.push(`/${props.id}/editmeetup`)
+        }
+        else{
+          signIn()
+        }
       }
 
 

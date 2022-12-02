@@ -1,3 +1,4 @@
+import { useSession, signIn} from 'next-auth/react';
 import { useRouter } from 'next/router'
 
 import Card from '../ui/Card';
@@ -7,32 +8,37 @@ function MeetupItem(props) {
 
   const router = useRouter()
 
+  const {data: session} = useSession()
+  
+
 
 function showDetailsHandler(){
   router.push('/' + props.id)
 }
 
 function editMeetupHandler(){
-  router.push({pathname: `/${props.id}/editmeetup`,
-  query: {image: props.image,
-          title: props.title,
-          description: props.description,
-          address: props.address
-        }
-})
-
-
+  
+  if(session){
+    router.push(`/${props.id}/editmeetup`)
+  }
+  else{
+    signIn()
+  }
     
 }
 
 async function removeEvent() {
+  if(session){
     const response = await fetch('api/new-meetup', {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(props.id)
-  })
-  
-  router.push('/')
+    })
+    router.push('/')
+  }
+  else{
+    signIn()
+  }
 }
 
 

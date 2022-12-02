@@ -2,17 +2,27 @@ import MeetupList from "../components/meetups/MeetupList"
 import { MongoClient } from "mongodb"
 import Head from 'next/head'
 import { Fragment } from 'react'
+import {useSession, signIn, signOut} from 'next-auth/react'
 
 
 function HomePage(props){
+
+    const {data:session} = useSession()
+
+    const loggedIn = 
+        <div className="notLoggedIn">
+            {session?<h1>Welcome, {session.user.name}</h1>:<h1>If you want to add, edit or remove meetups, please log in</h1>}
+        </div>
+
     return (
     <Fragment>
         <Head>
-        <title>Coding Meetups</title>
-        <meta name="description" content="Lots of highly active React meetups"/>
+            <title>Coding Meetups</title>
+            <meta name="description" content="Lots of highly active React meetups"/>
         </Head>
+        {loggedIn}
         <MeetupList meetups={props.meetups}/>
-        </Fragment>
+    </Fragment>
         )
 }
 
